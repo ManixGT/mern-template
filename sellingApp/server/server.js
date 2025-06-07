@@ -4,8 +4,12 @@ import user from "./routes/user/user.routes.js";
 import courses from "./routes/user/course.routes.js";
 
 const app = express();
+
+app.use(express.json());
+
 const PORT = process.env.PORT || 3001;
 
-// app.use("/api/v1");
+app.use("/api/v1", user);
+app.use("/api/v1", courses);
 
 app.listen(PORT, () => console.log(`http://localhost:${PORT}`));

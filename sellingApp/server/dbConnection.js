@@ -15,7 +15,7 @@ const connectDB = async () => {
     await mongoose.connect(dbString); // Mongoose 6 automatically uses the latest defaults
     console.log("✅ MongoDB is connected successfully");
   } catch (error) {
-    console.error("❌ MongoDB connection failed:", error.message);
+    console.error("❌ DB connection failed:", error.message);
     process.exit(1);
   }
 };

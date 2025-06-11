@@ -13,3 +13,5 @@ adminRoutes.post("/signUp", (req, res) => {
     message: "SignUp for Admin",
   });
 });
+
+export default adminRoutes;

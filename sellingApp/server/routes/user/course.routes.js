@@ -1,13 +1,16 @@
 import express from "express";
 
-const coursesRouter = express.Router();
+const courseRouter = express.Router();
 
-coursesRouter.get("/", (req, res) => {
-  res.send("get all courses route");
-});
+courseRouter
+  .get("/", (req, res) => {
+    res.send("get all courses route");
+  })
+  .get("/:id", (req, res) => {
+    res.send("get single course by id");
+  })
+  .post((req, res) => {
+    res.send("purchasing new course");
+  });
 
-coursesRouter.post("/", (req, res) => {
-  res.send("purchasing new course");
-});
-
-export default coursesRouter;
+export default courseRouter;

@@ -17,7 +17,7 @@ app.use(express.urlencoded());
 app.use("/api/v1/user", user);
 app.use("/api/v1/courses", courses);
 app.use("/api/v1/admin", admin);
-app.use("/api/v1/courses", adminCourse);
+app.use("/api/v1/admin/courses", adminCourse);
 
 connectDB().then(() => {
   app.listen(PORT, () => {

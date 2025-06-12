@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js --watch"
   },
   "keywords": [],
   "author": "",
@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cloudinary": "^1.41.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
@@ -19,6 +20,7 @@
     "mongodb": "^6.17.0",
     "mongoose": "^8.15.1",
     "multer": "^2.0.1",
+    "multer-storage-cloudinary": "^4.0.0",
     "nodemon": "^3.1.10",
     "zod": "^3.25.61"
   }

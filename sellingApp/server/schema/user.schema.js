@@ -25,18 +25,12 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-//! Hash password before save to mongoDB(.pre('save') middleware function)
+//! Hash password before save to mongoDB(.pre() mongoose middleware function)
+//? .pre is used to run some code before an action happens on a Mongoose schema.
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
-  console.log("HashPassword");
   next();
 });
-
-//! Compare password during login
-userSchema.methods.comparePassword = async function (inputPassword) {
-  return bcrypt.compare(inputPassword, this.password);
-  console.log("ComparingPass");
-};
 
 export default userSchema;

@@ -1,25 +1,21 @@
-// middleware/upload.js
-import multer, { path } from "multer";
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import multer from "multer";
 
-// Storage config
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "courses", // Folder name in Cloudinary
+    allowed_formats: ["jpg", "png", "jpeg"],
   },
 });
 
-// File filter
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png|gif/;
-  const isValid =
-    allowedTypes.test(path.extname(file.originalname).toLowerCase()) &&
-    allowedTypes.test(file.mimetype);
-  cb(null, isValid);
-};
+const upload = multer({ storage });
 
-module.exports = multer({
-  storage,
-  fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
-});
+export default upload;

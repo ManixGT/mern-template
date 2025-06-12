@@ -13,6 +13,8 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded());
 
+app.use("/uploads", express.static("uploads"));
+
 //!middleware-route
 app.use("/api/v1/user", user);
 app.use("/api/v1/course", course);

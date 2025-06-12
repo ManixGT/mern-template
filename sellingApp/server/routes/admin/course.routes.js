@@ -1,22 +1,28 @@
 import express from "express";
 import adminAuthMiddleware from "../../middleware/adminAuth.middleware.js";
+import courseController from "../../controller/admin/course.controller.js";
+import upload from "../../middleware/upload.middleware.js";
 
 const adminCourse = express.Router();
 
-adminCourse.use(adminAuthMiddleware);
-
 adminCourse
-  .get("/:id", (req, res) => {
+  .get("/:id", adminAuthMiddleware, (req, res) => {
     res.send("Admin get course");
   })
-  .patch("/:id", (req, res) => {
+  .patch("/:id", adminAuthMiddleware, (req, res) => {
     res.send("Edit the course");
   })
-  .delete("/:id", (req, res) => {
+  .delete("/:id", adminAuthMiddleware, (req, res) => {
     res.send("Delete the course");
   })
-  .post("/", (req, res) => {
-    res.send("Create the course");
-  });
+  .post(
+    "/",
+    adminAuthMiddleware,
+    upload.single("image"),
+    courseController,
+    (req, res) => {
+      res.send("Create the course");
+    }
+  );
 
 export default adminCourse;

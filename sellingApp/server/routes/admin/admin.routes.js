@@ -1,17 +1,10 @@
 import express from "express";
+import loginController from "../../controller/admin/login.controller";
 
 const adminRoutes = express.Router();
 
-adminRoutes.post("/signIn", (req, res) => {
-  res.json({
-    message: "Admin Sign In",
-  });
-});
+adminRoutes.post("/signIn", loginController);
 
-adminRoutes.post("/signUp", (req, res) => {
-  res.json({
-    message: "SignUp for Admin",
-  });
-});
+adminRoutes.post("/signUp");
 
 export default adminRoutes;

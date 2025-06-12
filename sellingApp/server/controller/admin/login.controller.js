@@ -1,8 +1,8 @@
-import adminModel from "../../models/admin.model";
+import adminModel from "../../models/admin.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const adminController = async (req, res, next) => {
+const loginController = async (req, res, next) => {
   //! collecting email and pass from req
   const { email, password } = req.body;
 
@@ -32,4 +32,4 @@ const adminController = async (req, res, next) => {
   });
 };
 
-export default adminController;
+export default loginController;

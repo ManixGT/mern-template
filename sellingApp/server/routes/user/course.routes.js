@@ -6,11 +6,11 @@ courseRouter
   .get("/", (req, res) => {
     res.send("get all courses route");
   })
+  .post("/", (req, res) => {
+    res.send("purchasing new course");
+  })
   .get("/:id", (req, res) => {
     res.send("get single course by id");
-  })
-  .post((req, res) => {
-    res.send("purchasing new course");
   });
 
 export default courseRouter;

@@ -6,17 +6,17 @@ const adminCourse = express.Router();
 adminCourse.use(adminAuthMiddleware);
 
 adminCourse
-  .get("/course/:id", (req, res) => {
+  .get("/:id", (req, res) => {
     res.send("Admin get course");
   })
-  .post("/course", (req, res) => {
-    res.send("Create the course");
-  })
-  .patch("/course/:id", (req, res) => {
+  .patch("/:id", (req, res) => {
     res.send("Edit the course");
   })
-  .delete("/course/:id", (req, res) => {
+  .delete("/:id", (req, res) => {
     res.send("Delete the course");
+  })
+  .post("/", (req, res) => {
+    res.send("Create the course");
   });
 
 export default adminCourse;

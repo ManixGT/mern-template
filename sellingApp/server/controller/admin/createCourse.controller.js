@@ -1,5 +1,5 @@
 import courseModel from "../../models/course.model.js";
-const courseController = async (req, res, next) => {
+const createCourseController = async (req, res, next) => {
   const adminId = req.admin;
 
   const { title, description, price } = req.body;
@@ -20,4 +20,4 @@ const courseController = async (req, res, next) => {
   });
 };
 
-export default courseController;
+export default createCourseController;

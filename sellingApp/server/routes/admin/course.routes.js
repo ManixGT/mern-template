@@ -1,24 +1,35 @@
 import express from "express";
 import authMiddleware from "../../middleware/auth.middleware.js";
 import upload from "../../middleware/upload.middleware.js";
-import createCourse from "../../controller/admin/createCourse.controller.js";
-import createdCourses from "../../controller/admin/createdCourses.controller.js";
-import deleteCourse from "../../controller/admin/deleteCourse.controller.js";
+import createCourseController from "../../controller/admin/course/createCourse.controller.js";
+import updateCourseController from "../../controller/admin/course/updateCourse.controller.js";
+import createdCoursesController from "../../controller/admin/course/createdCourses.controller.js";
+import deleteCourseController from "../../controller/admin/course/deleteCourse.controller.js";
 
-const adminCourse = express.Router();
+const router = express.Router();
 
-adminCourse
-  .get("/:id", authMiddleware, createdCourses)
-  .patch("/:id", authMiddleware, createCourse)
-  .delete("/:id", authMiddleware, deleteCourse)
-  .post(
-    "/",
-    authMiddleware,
-    upload.single("image"),
-    createCourseController,
-    (req, res) => {
-      res.send("Create the course");
-    }
-  );
+//! --- Middleware Order Matters ---
+// 1. File upload first (fail fast before auth checks)
+// 2. Then authentication
+// 3. Then business logic in controllers
 
-export default adminCourse;
+router.post(
+  "/",
+  upload.single("image"), //? Handle file first
+  authMiddleware("admin"), //? Then check auth
+  createCourseController //? Controller handles response
+);
+router.post("/:id", authMiddleware("admin"), createCourseController);
+
+router.patch(
+  "/:id",
+  upload.single("image"), //! File first
+  authMiddleware("admin"),
+  updateCourseController
+);
+
+router.get("/", authMiddleware("admin"), createdCoursesController);
+
+router.delete("/:id", authMiddleware("admin"), deleteCourseController);
+
+export default router;

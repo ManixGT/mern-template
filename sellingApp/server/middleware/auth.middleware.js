@@ -3,49 +3,70 @@ import adminModel from "../models/admin.model.js";
 import userModel from "../models/user.model.js";
 
 /**
- * Creates an authentication middleware for the specified role.
- * @param {'user' | 'admin'} role
- * @returns Express middleware function
+ * Role-based authentication middleware
+ * @param {'user' | 'admin'} role - Required role for access
+ * @returns {Function} Express middleware
  */
 
 const authMiddleware = (role) => {
   return async (req, res, next) => {
-    let token;
+    //! 1. Token Extraction
+    const authHeader = req.headers.authorization;
 
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
-    ) {
-      try {
-        token = req.headers.authorization.split(" ")[1];
+    if (!authHeader?.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        error: "Missing or malformed authorization header",
+      });
+    }
 
-        const secret =
-          role === "admin"
-            ? process.env.admin_JWT_SECRET
-            : process.env.user_JWT_SECRET;
+    const token = authHeader.split(" ")[1];
 
-        const decoded = jwt.verify(token, secret);
+    try {
+      //! 2. Token Verification
+      const secret =
+        role === "admin"
+          ? process.env.ADMIN_JWT_SECRET
+          : process.env.USER_JWT_SECRET;
 
-        const model = role === "admin" ? adminModel : userModel;
-        const key = role === "admin" ? "admin" : "user";
+      //! jwt.verify(token, secret); is used to decode and verify a JWT token using the secret key.
+      const decoded = jwt.verify(token, secret);
+      //! also return you the values that you store inside the jwt token at creating time; jwt.sign({ id: admin._id },secret_token)
+      console.log(decoded, "<---DECODED");
 
-        //?  4. Attaching user/admin information to the request object / Attaching authenticated entity data to the request object ->
-        //!  Here Attaching user to request object & excluding password;Makes the admin’s information available to all middleware and route handlers that come after `adminAuthMiddleware` in the request chain
-        //!  Without attaching the admin to `req`, your protected routes wouldn’t know who the current admin is ,making authorization and personalization much harder and less efficient.
-        req[key] = await model.findById(decoded.id).select("-password");
+      //! 3. User/Admin Fetch
+      const model = role === "admin" ? adminModel : userModel;
 
-        if (!req[key]) {
-          return res.status(401).json({ message: `No ${role} found` });
-        }
+      const entity = await model.findById(decoded._id).select("-password -__v");
+      console.log(entity, "<--ENTITY");
 
-        next();
-      } catch (error) {
-        console.error(error);
-        res.status(401).json({ message: "Not authorized, token failed" });
+      if (!entity) {
+        return res.status(401).json({
+          success: false,
+          error: `${role} not found or token invalid`,
+        });
       }
-    } else {
+
+      //! 4. Request Attachment
+      req[role] = entity; // Consistent naming (req.admin or req.user)
+      req.role = role; // Additional role context
+
+      next();
+    } catch (error) {
+      //! 5. Error Handling
+      let errorMessage = "Authentication failed";
+
+      if (error.name === "TokenExpiredError") {
+        errorMessage = "Token expired";
+      } else if (error.name === "JsonWebTokenError") {
+        errorMessage = "Invalid token";
+      }
+
+      console.error(`Auth Error (${role}):`, error.message);
+
       res.status(401).json({
-        message: "Not authorized or incorrect Bearer format, no token",
+        success: false,
+        error: errorMessage,
       });
     }
   };

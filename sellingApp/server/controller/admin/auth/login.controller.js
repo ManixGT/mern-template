@@ -1,4 +1,4 @@
-import adminModel from "../../models/admin.model.js";
+import adminModel from "../../../models/admin.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
@@ -24,7 +24,7 @@ const loginController = async (req, res, next) => {
     return res.status(401).json({ message: "Invalid Password" });
   }
 
-  //! Generate JWT token
+  //! Generate JWT token and storing id inside jwt token;we can access it on need as well
   const token = jwt.sign({ id: admin._id }, process.env.admin_JWT_SECRET, {
     expiresIn: "1d",
   });

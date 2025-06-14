@@ -1,4 +1,4 @@
-import courseModel from "../../models/course.model.js";
+import courseModel from "../../../models/course.model.js";
 
 const deleteCourse = async (req, res, next) => {
   const { id } = req.params;

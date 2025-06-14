@@ -1,4 +1,4 @@
-import adminModel from "../../models/admin.model.js";
+import adminModel from "../../../models/admin.model.js";
 
 const signupController = async (req, res, next) => {
   const { email, password, firstName } = req.body;

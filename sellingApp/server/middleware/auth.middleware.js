@@ -37,7 +37,7 @@ const authMiddleware = (role) => {
       //! 3. User/Admin Fetch
       const model = role === "admin" ? adminModel : userModel;
 
-      const entity = await model.findById(decoded._id).select("-password -__v");
+      const entity = await model.findById(decoded.id).select("-password -__v");
       console.log(entity, "<--ENTITY");
 
       if (!entity) {

@@ -6,8 +6,6 @@ const loginController = async (req, res, next) => {
   //! collecting email and pass from req
   const { email, password } = req.body;
 
-  console.log(email, "email");
-
   //! Trying to find a admin in db
   const admin = await adminModel.findOne({ email });
   if (!admin) {
@@ -19,8 +17,6 @@ const loginController = async (req, res, next) => {
   //! Comparing Password
   const isMatch = await bcrypt.compare(password, admin.password);
   if (!isMatch) {
-    console.log(isMatch);
-
     return res.status(401).json({ message: "Invalid Password" });
   }
 

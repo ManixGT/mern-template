@@ -1,5 +1,6 @@
 import courseModel from "../../models/course.model.js";
 const createCourseController = async (req, res, next) => {
+  console.log("Id", req);
   const adminId = req.admin;
 
   const { title, description, price } = req.body;

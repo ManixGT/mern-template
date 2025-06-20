@@ -5,7 +5,7 @@ const signupController = async (req, res, next) => {
 
   const existingUser = await adminModel.findOne({ email });
   if (existingUser) {
-    res.json({ message: "Already an User, Log In direclty" });
+    res.json({ message: "Already an Admin, Log In direclty" });
   }
 
   const newAdmin = new adminModel({ email, password, firstName });

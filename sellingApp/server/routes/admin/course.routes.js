@@ -28,7 +28,7 @@ router.patch(
   updateCourseController
 );
 
-router.get("/", authMiddleware("admin"), createdCoursesController);
+router.get("/:id", authMiddleware("admin"), createdCoursesController);
 
 router.delete("/:id", authMiddleware("admin"), deleteCourseController);
 

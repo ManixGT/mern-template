@@ -19,6 +19,7 @@ router.post(
   authMiddleware("admin"), //? Then check auth
   createCourseController //? Controller handles response
 );
+
 router.post("/:id", authMiddleware("admin"), createCourseController);
 
 router.patch(

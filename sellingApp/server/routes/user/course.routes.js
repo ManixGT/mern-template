@@ -1,16 +1,12 @@
 import express from "express";
+import purchaseController from "../../controller/user/course/purchase.controller";
+import fetchCourse from "../../controller/user/course/fetchCourse.controller";
+import authMiddleware from "../../middleware/auth.middleware";
 
 const courseRouter = express.Router();
 
 courseRouter
-  .get("/", (req, res) => {
-    res.send("get all courses route");
-  })
-  .post("/", (req, res) => {
-    res.send("purchasing new course");
-  })
-  .get("/:id", (req, res) => {
-    res.send("get single course by id");
-  });
+  .post("/", authMiddleware("user"), purchaseController)
+  .get("/:id", authMiddleware("user"), fetchCourse);
 
 export default courseRouter;

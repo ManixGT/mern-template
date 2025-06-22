@@ -5,11 +5,6 @@ const createdCourses = async (req, res, next) => {
   const adminId = req.admin?._id;
   console.log(req, "<---REQUEST");
 
-  // if (id) {
-  //   creatorId !== adminId;
-  //   res.status(201).json({ message: "Not Authorize to access Course List" });
-  // }
-
   if (courseId) {
     const specificCourse = await courseModel.findById(courseId);
 

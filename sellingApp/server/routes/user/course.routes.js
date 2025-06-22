@@ -7,6 +7,6 @@ const courseRouter = express.Router();
 
 courseRouter
   .post("/", authMiddleware("user"), purchaseController)
-  .get("/:id", authMiddleware("user"), fetchCourse);
+  .get("/:id", fetchCourse);
 
 export default courseRouter;

@@ -1,7 +1,7 @@
 import express from "express";
-import purchaseController from "../../controller/user/course/purchase.controller";
-import fetchCourse from "../../controller/user/course/fetchCourse.controller";
-import authMiddleware from "../../middleware/auth.middleware";
+import purchaseController from "../../controller/user/course/purchase.controller.js";
+import fetchCourse from "../../controller/user/course/fetchCourse.controller.js";
+import authMiddleware from "../../middleware/auth.middleware.js";
 
 const courseRouter = express.Router();
 
